@@ -15,8 +15,8 @@ def index():
         try:
             get_cal(crn_content.split(" "))
             path = "classes.csv"
-            return send_file(path, as_attachment=True)
-            # return redirect(url_for('/'))
+            send_file(path, as_attachment=True)
+            return redirect(url_for('/'))
         except Exception as e:
             return "Either you misstyped your crns, or theres a problem on my end, contact nayr#8772 on discord or email ryanlee619@gmail.com for and problems or questions" + str(e)
         
