@@ -98,7 +98,7 @@ def get_cal(crns):
             dates = get_date(class_dict["start - end"], class_dict["days"])
         df = pd.DataFrame(columns=columns)
         df["Start date"] = dates
-        df["Subject"] = class_dict["course title"]
+        df["Subject"] = class_dict["course title"] + "-" + class_dict["actv"]
         split_timevar = split_time(class_dict["time"])
         df["Start Time"] = split_timevar[0]
         df["End Time"] = split_timevar[1]
