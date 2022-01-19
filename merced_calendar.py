@@ -116,8 +116,6 @@ def get_cal(crns):
         
     return main_df
 
-print(get_cal([15124, 15163, 16414, 16416, 17105, 15593, 15594]))
-
 # crn = 15124
 # class_dict = get_class(crn)
 # print(class_dict)
