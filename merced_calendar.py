@@ -67,29 +67,38 @@ def get_date(sten, day):
                             freq=f'W-{days[i]}').strftime('%m/%d/2022').tolist())
     return gibbo
 
-def get_cal(crn):
-    a_dict = collections.defaultdict(list)
-    for num in crn:
-        class_dict = get_class(num)
-        for day in get_date(class_dict["start - end"], class_dict["days"]):
-            # columns = ["Subject", "Start date", "Start Time", "End Time", "Description", "Location"]
-            a_dict["Subject"].append(class_dict["course title"] + "-" + class_dict["actv"])
-            a_dict["Start Date"].append(day)
-            split_timevar = split_time(class_dict["time"])
-            a_dict["Start Time"].append(split_timevar[0])
-            a_dict["End Time"].append(split_timevar[1])
-            a_dict["Description"].append(f"""CRN: {num} Course #: {class_dict["course #"]} Units: {class_dict["units"]} Instructor: {class_dict["instructor"]}""")
-            a_dict["Location"].append(class_dict["bldg/rm"])
-        if('exam' in class_dict.keys()):
-            a_dict["Subject"].append(class_dict["course title"] + "-EXAM")
-            a_dict["Start Date"].append(get_date(class_dict["exam_start - end"], class_dict["exam_week"])[0])
-            split_timevar = split_time(class_dict["exam_time"])
-            a_dict["Start Time"].append(split_timevar[0])
-            a_dict["End Time"].append(split_timevar[1])
-            a_dict["Description"].append("Exam")
-            a_dict["Location"].append(class_dict["exam_bldg/rm"])
-    df = pd.DataFrame(data = a_dict)
-    df.to_csv("classes.csv", index=False)
-    return df
+def get_cal(crns):
+    columns = ["Subject", "Start date", "Start Time", "End Time", "Description", "Location"]
+    main_df = pd.DataFrame(columns=columns)
+    for crn in crns:
+        class_dict=get_class(crn)
+        exam = False
+        if('exam' in class_dict):
+            exam = True
+            dates = get_date(class_dict["start - end"], class_dict["days"]) + get_date(class_dict["exam_start - end"], class_dict["exam_week"])
+        else:
+            dates = get_date(class_dict["start - end"], class_dict["days"])
+        df = pd.DataFrame(columns=columns)
+        df["Start date"] = dates
+        df["Subject"] = class_dict["course title"]
+        split_timevar = split_time(class_dict["time"])
+        df["Start Time"] = split_timevar[0]
+        df["End Time"] = split_timevar[1]
+        df["Description"] = f"""CRN: {crn} Course #: {class_dict["course #"]} Units: {class_dict["units"]} Instructor: {class_dict["instructor"]}"""
+        df["Location"] = class_dict["bldg/rm"]
 
-# get_cal([15124, 15159, 15163, 16414, 16416, 17105, 15593, 15594])
+        if(exam):
+            df.iloc[-1, 0] = class_dict["course title"] + "-EXAM"
+            split_timevar = split_time(class_dict["exam_time"])
+            df.iloc[-1, 2] = split_timevar[0]
+            df.iloc[-1, 3] = split_timevar[1]
+            df.iloc[-1, 4] = "Good luck on your exams!"
+            df.iloc[-1, 5] = class_dict["exam_bldg/rm"]
+        main_df = main_df.append(df, ignore_index=True)
+        
+    return main_df
+
+print(get_cal([15124, 15159, 15163, 16414, 16416, 17105, 15593, 15594]))
+# crn = 15124
+# class_dict = get_class(crn)
+# print(class_dict)
