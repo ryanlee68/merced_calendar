@@ -1,20 +1,20 @@
 from lxml import etree
 
-# crn = 10521
 
 def get_class(crn, dom, header):
     crn = f"crn={crn}"
 
     class_dict = {}
 
+    tech_name = dom.xpath(f"//td[*//a[contains(@href, '{crn}')]]/following-sibling::td")
     for i in range(12):
-        tech_name = dom.xpath(f"//td[*//a[contains(@href, '{crn}')]]/following-sibling::td")[i]
-        tech_name = str(etree.tostring(tech_name, encoding='unicode', method="text"))[:-1]
-        if("Must Also Register" in tech_name or len(tech_name) > 35):
-            tech_name = tech_name[:tech_name.index('Must Also')]
-            tech_name = tech_name[:35]
+        tech_name_temp = tech_name[i]
+        tech_name_temp = str(etree.tostring(tech_name_temp, encoding='unicode', method="text"))[:-1]
+        if("Must Also Register" in tech_name_temp or len(tech_name_temp) > 35):
+            tech_name_temp = tech_name_temp[:tech_name_temp.index('Must Also')]
+            tech_name_temp = tech_name_temp[:35]
 
-        class_dict[header[i]] = tech_name
+        class_dict[header[i]] = tech_name_temp
 
     try:
         tech_name = dom.xpath(f"//tr[*//a[contains(@href, '{crn}')]]/following-sibling::tr")[0]
