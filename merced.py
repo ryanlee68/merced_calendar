@@ -11,8 +11,10 @@ def get_class(crn, dom, header):
         tech_name_temp = tech_name[i]
         tech_name_temp = str(etree.tostring(tech_name_temp, encoding='unicode', method="text"))[:-1]
         if("Must Also Register" in tech_name_temp or len(tech_name_temp) > 35):
-            tech_name_temp = tech_name_temp[:tech_name_temp.index('Must Also')]
-            tech_name_temp = tech_name_temp[:35]
+            try:
+                tech_name_temp = tech_name_temp[:tech_name_temp.index('Must Also')]
+            except Exception as e:
+                tech_name_temp = tech_name_temp[:35]
 
         class_dict[header[i]] = tech_name_temp
 
