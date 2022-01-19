@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>RL</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>Either you misstyped your crns, or theres a problem on my end, contact nayr#8772 on discord or email ryanlee619@gmail.com for and problems or questions</h1>
+    <h1>i saved you 10 minutes while I took 10 hours to make this program :)</h1>
+    <p>put in your class CRN #s and click submit and then watch video</p>
+    <br>
+    <form action="/" method="POST" autocomplete="on">
+        <input style="width:40vw" placeholder="00000 11111 54144 43241 76533" type="text" name="content" id="content">
+        <input type="submit" value="Submit CRNs"">
+    </form>
+    <br>
+    <br>
+    <p>*additional exams other than the final exam are not added to the calendar*</p>
+    <p>*if you have a class that has a TBD schedule, only the exam date will be added*</p>
+    <p>it should take max 1 minute to load</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/vHKP6vaNlNY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p style="position:absolute; top:90%">created by ryan lee and andres torres</p>
+    <p>problems/questions? email: ryanlee619 at gmail.com disc: nayr#8772</p>
+</div>
+<img style="position:absolute;top:90%;left:0%;width:100px;height:100px"src="https://c.tenor.com/vQAlstk2VfwAAAAC/among-us-among-drip.gif" alt="sussy baka"> 
+{% endblock %}
