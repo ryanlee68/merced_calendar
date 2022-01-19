@@ -1,4 +1,4 @@
-# from crypt import methods
+# made by ryan lee
 from distutils.log import debug
 from importlib.resources import path
 from operator import methodcaller
