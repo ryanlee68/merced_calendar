@@ -18,7 +18,7 @@ def index():
             return send_file(path, as_attachment=True)
             return redirect(url_for('/index.html'))
         except Exception as e:
-            return redirect(url_for('index_error.html'))
+            return redirect(url_for('/index_error.html'))
             return "Either you misstyped your crns, or theres a problem on my end, contact nayr#8772 on discord or email ryanlee619@gmail.com for and problems or questions" + str(e)
         
         return render_template('index.html')
