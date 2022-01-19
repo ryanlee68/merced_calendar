@@ -119,4 +119,4 @@ def get_cal(crns):
 
 # crn = 15124
 # class_dict = get_class(crn)
-print(get_cal([15159]))
+# print(get_cal([15159]))
