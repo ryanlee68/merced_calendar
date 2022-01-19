@@ -66,8 +66,11 @@ def get_date(sten, day):
     gibbo = []
     day.split()
     for i in day:
-        gibbo.extend(pd.date_range(start=start, end=end, 
-                            freq=f'W-{days[i]}').strftime('%m/%d/2022').tolist())
+        try:
+            gibbo.extend(pd.date_range(start=start, end=end, 
+                                freq=f'W-{days[i]}').strftime('%m/%d/2022').tolist())
+        except KeyError as e:
+            return ["TBD"]
     return gibbo
 
 def get_cal(crns):
@@ -99,7 +102,10 @@ def get_cal(crns):
         df = pd.DataFrame(columns=columns)
         df["Start date"] = dates
         df["Subject"] = class_dict["course title"] + "-" + class_dict["actv"]
-        split_timevar = split_time(class_dict["time"])
+        try:
+            split_timevar = split_time(class_dict["time"])
+        except ValueError as e:
+            split_timevar = ["TBD", "TBD"]
         df["Start Time"] = split_timevar[0]
         df["End Time"] = split_timevar[1]
         df["Description"] = f"""CRN: {crn} Course #: {class_dict["course #"]} Units: {class_dict["units"]} Instructor: {class_dict["instructor"]}"""
@@ -114,9 +120,9 @@ def get_cal(crns):
             df.iloc[-1, 5] = class_dict["exam_bldg/rm"]
         main_df = main_df.append(df, ignore_index=True)
         
-    main_df.to_csv("classes.csv", index=False)
-    # return main_df
+    # main_df.to_csv("classes.csv", index=False)
+    return main_df
 
 # crn = 15124
 # class_dict = get_class(crn)
-# print(get_cal([15159]))
+print(get_cal([10062, 16040, 16041, 14109, 14112, 14113, 10095, 10097, 15144, 15147, 15114]))
