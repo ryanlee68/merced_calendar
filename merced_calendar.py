@@ -114,8 +114,9 @@ def get_cal(crns):
             df.iloc[-1, 5] = class_dict["exam_bldg/rm"]
         main_df = main_df.append(df, ignore_index=True)
         
-    return main_df
+    main_df.to_csv("classes.csv", index=False)
+    # return main_df
 
 # crn = 15124
 # class_dict = get_class(crn)
-# print(class_dict)
+print(get_cal([15159]))
