@@ -1,4 +1,7 @@
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+from lxml import etree
 from merced import get_class
 import collections
 from datetime import datetime
@@ -68,10 +71,25 @@ def get_date(sten, day):
     return gibbo
 
 def get_cal(crns):
+    webpage = requests.post("https://mystudentrecord.ucmerced.edu/pls/PROD/xhwschedule.P_ViewSchedule", params={
+        "validterm":202210,
+        "subjcode":"ALL",
+        "openclasses":"N"
+        }
+    )
+
+    soup = BeautifulSoup(webpage.content, "html.parser")
+    dom = etree.HTML(str(soup))
+    header = dom.xpath('//tr[@bgcolor="#FFC605"]')[0]
+
+    header = str(etree.tostring(header, encoding='unicode', method="text")).lower().split("\n")[2:][:-2]
+
+
+
     columns = ["Subject", "Start date", "Start Time", "End Time", "Description", "Location"]
     main_df = pd.DataFrame(columns=columns)
     for crn in crns:
-        class_dict=get_class(crn)
+        class_dict=get_class(crn, dom, header)
         exam = False
         if('exam' in class_dict):
             exam = True
@@ -97,6 +115,8 @@ def get_cal(crns):
         main_df = main_df.append(df, ignore_index=True)
         
     return main_df
+
+print(get_cal([15124, 15163, 16414, 16416, 17105, 15593, 15594]))
 
 # crn = 15124
 # class_dict = get_class(crn)

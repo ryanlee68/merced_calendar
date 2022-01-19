@@ -1,24 +1,22 @@
-import requests
-from bs4 import BeautifulSoup
 from lxml import etree
 
 # crn = 10521
 
-def get_class(crn):
+def get_class(crn, dom, header):
     crn = f"crn={crn}"
 
-    webpage = requests.post("https://mystudentrecord.ucmerced.edu/pls/PROD/xhwschedule.P_ViewSchedule", params={
-        "validterm":202210,
-        "subjcode":"ALL",
-        "openclasses":"N"
-        }
-    )
+    # webpage = requests.post("https://mystudentrecord.ucmerced.edu/pls/PROD/xhwschedule.P_ViewSchedule", params={
+    #     "validterm":202210,
+    #     "subjcode":"ALL",
+    #     "openclasses":"N"
+    #     }
+    # )
 
-    soup = BeautifulSoup(webpage.content, "html.parser")
-    dom = etree.HTML(str(soup))
-    header = dom.xpath('//tr[@bgcolor="#FFC605"]')[0]
+    # soup = BeautifulSoup(webpage.content, "html.parser")
+    # dom = etree.HTML(str(soup))
+    # header = dom.xpath('//tr[@bgcolor="#FFC605"]')[0]
 
-    header = str(etree.tostring(header, encoding='unicode', method="text")).lower().split("\n")[2:][:-2]
+    # header = str(etree.tostring(header, encoding='unicode', method="text")).lower().split("\n")[2:][:-2]
 
     class_dict = {}
 
