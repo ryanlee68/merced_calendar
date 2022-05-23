@@ -1,1 +1,4 @@
 __pycache__
+anaconda.txt
+*.csv
+*.ipynb
