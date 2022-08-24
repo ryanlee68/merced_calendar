@@ -19,10 +19,52 @@ def create_df(crns):
         select(Subject).where(Subject.crn.in_(crns)),
         db.engine,
         index_col='crn',
-        columns=["course_name", "class_type", "course_number", "instructor", "location"]
     )
     df["Subject"] = df['course_name'].str[:22] + '-' + df['class_type']
     df["Description"] = 'CRN: ' + df.index.map(str) + " Course #: " + df["course_number"] + " Instructor(s): " + df['instructor']
-    # print(df.loc[31406])
-    print(df.index.map(map_dates))
+    dfs = []
+    for index, row in df.iterrows():
+        row_df = row.to_frame().T
+        row_df['Start Time'] = row['start_time'].time()
+        row_df['End Time'] = row['end_time'].time()
+        dates = map_dates(row) + [row['exam_time'].date()]
+        new = row_df.merge(pd.DataFrame({'dates': dates}), how='cross')
+        if pd.isna(row['exam_time']):
+            new.iloc[-1, row_df.columns.get_loc('Start Time')] = None
+            new.iloc[-1, row_df.columns.get_loc('End Time')] = None
+
+        else:
+            new.iloc[-1, row_df.columns.get_loc('Start Time')] = row['exam_time'].time()
+            new.iloc[-1, row_df.columns.get_loc('End Time')] = row['exam_end_time'].time()
+            new.iloc[-1, row_df.columns.get_loc('Description')] = 'Good luck 🍀 on your exams! 🙃'
+        new.iloc[-1, row_df.columns.get_loc('location')] = row['exam_location']
+        dfs.append(new)
+    df = pd.concat(dfs, ignore_index=True).drop(
+        [
+            'course_number',
+            'course_name',
+            'class_type',
+            'days',
+            'instructor',
+            'seats_avail',
+            'start_time',
+            'end_time',
+            'exam_time',
+            'exam_end_time',
+            'exam_location',
+        ],
+        axis=1
+    ).rename(
+        {'location': 'Location', 'dates': 'Start date'},
+        axis=1
+    ).reindex(
+        columns=[
+            'Subject',
+            'Start date',
+            'Start Time',
+            'End Time',
+            'Description',
+            'Location'
+        ]
+    )
     return df
