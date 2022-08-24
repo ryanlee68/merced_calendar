@@ -27,17 +27,16 @@ def create_df(crns):
         row_df = row.to_frame().T
         row_df['Start Time'] = row['start_time'].time()
         row_df['End Time'] = row['end_time'].time()
-        dates = map_dates(row) + [row['exam_time'].date()]
+        exam_date = []
+        if not pd.isna(row['exam_time']):
+            exam_date.append(row['exam_time'].date())
+        dates = map_dates(row) + exam_date
         new = row_df.merge(pd.DataFrame({'dates': dates}), how='cross')
-        if pd.isna(row['exam_time']):
-            new.iloc[-1, row_df.columns.get_loc('Start Time')] = None
-            new.iloc[-1, row_df.columns.get_loc('End Time')] = None
-
-        else:
+        if not pd.isna(row['exam_time']):
             new.iloc[-1, row_df.columns.get_loc('Start Time')] = row['exam_time'].time()
             new.iloc[-1, row_df.columns.get_loc('End Time')] = row['exam_end_time'].time()
             new.iloc[-1, row_df.columns.get_loc('Description')] = 'Good luck 🍀 on your exams! 🙃'
-        new.iloc[-1, row_df.columns.get_loc('location')] = row['exam_location']
+            new.iloc[-1, row_df.columns.get_loc('location')] = row['exam_location']
         dfs.append(new)
     df = pd.concat(dfs, ignore_index=True).drop(
         [
