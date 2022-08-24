@@ -33,6 +33,7 @@ def create_df(crns):
         dates = map_dates(row) + exam_date
         new = row_df.merge(pd.DataFrame({'dates': dates}), how='cross')
         if not pd.isna(row['exam_time']):
+            new.iloc[-1, row_df.columns.get_loc('Subject')] = f"{row['course_name'][:22]}-EXAM"
             new.iloc[-1, row_df.columns.get_loc('Start Time')] = row['exam_time'].time()
             new.iloc[-1, row_df.columns.get_loc('End Time')] = row['exam_end_time'].time()
             new.iloc[-1, row_df.columns.get_loc('Description')] = 'Good luck 🍀 on your exams! 🙃'
