@@ -5,7 +5,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
-import '../styling/InputForm.scss'
+import '../styling/InputForm.scss';
+// import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // const Input = () => {
 //   return <input placeholder="Your input here" />;
@@ -24,8 +26,52 @@ function InputForm() {
       arrOfNum.push(Number(str));
     });
     console.log(arrOfNum)
-  }
+    // window.open('/getcsv?data='+arrOfNum, '_blank');
+    // axios.post('/getcsv', {
+    // crns: arrOfNum
+    // })
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+    fetch('/getcsv', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({'crns': arrOfNum})
+    })
+    .then((response) => response.blob())
+    .then((blob) => {
+      // Create blob link to download
+      const url = window.URL.createObjectURL(
+        new Blob([blob]),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      // link.target = _self;
+      // link.setAttribute('target', '_self');
+      link.setAttribute(
+        'download',
+        `classes.csv`,
+      );
 
+      // Append to html link element page
+      // document.body.appendChild(link);
+
+      // Start download
+      link.click();
+      
+      // Clean up and remove the link
+      // link.parentNode.removeChild(link);
+      // window.close();
+      // const navigate = useNavigate();
+      // navigate("/");
+      // window.location.reload(false);
+    });
+  };
   const onAddBtnClick = event => {
     setInputList(inputList.concat(
     <React.Fragment>
