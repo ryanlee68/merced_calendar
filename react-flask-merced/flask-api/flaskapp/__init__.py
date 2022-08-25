@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../../build", static_url_path='/')
 # os.getenv('GCP_PROJECT_ID')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
