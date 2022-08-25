@@ -15,23 +15,23 @@ from calendar import (
     SUNDAY
 )
 
-# @app.route('/')
-# def index():
-#     return app.send_static_file('index.html')
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
-@app.route("/api/test", methods=['POST', 'GET'])
-def test():
-    if request.method == 'GET':
-        Subject.query.delete()
-        classes = get_data(get_cookies())
-        subject_obj = parse_json(classes)
-        db.session.add_all(subject_obj)
-        db.session.commit()
+# @app.route("/api/test", methods=['POST', 'GET'])
+# def test():
+#     if request.method == 'GET':
+#         Subject.query.delete()
+#         classes = get_data(get_cookies())
+#         subject_obj = parse_json(classes)
+#         db.session.add_all(subject_obj)
+#         db.session.commit()
 
-        # resp = jsonify(success=True)
-        return 'success'
+#         # resp = jsonify(success=True)
+#         return 'success'
 
-        # parse_json()
+#         # parse_json()
 
 
 
