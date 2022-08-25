@@ -15,6 +15,10 @@ from calendar import (
     SUNDAY
 )
 
+# @app.route('/')
+# def index():
+#     return app.send_static_file('index.html')
+
 @app.route("/test", methods=['POST', 'GET'])
 def test():
     if request.method == 'GET':
@@ -23,6 +27,8 @@ def test():
         subject_obj = parse_json(classes)
         db.session.add_all(subject_obj)
         db.session.commit()
+
+        # parse_json()
 
 
 
