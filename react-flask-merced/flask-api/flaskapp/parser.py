@@ -19,7 +19,7 @@ def parse_json(classes:list[dict]) -> list[Subject]:
         # exam_dict = {}
 
         for meeting in class_['meetingsFaculty']:
-            print(class_['courseReferenceNumber'])
+            # print(class_['courseReferenceNumber'])
             if meeting['meetingTime']['meetingType'] != 'EXAM':
                 subject_dict['class_type'] = meeting['meetingTime']['meetingType']
                 subject_dict['location'] = f"{meeting['meetingTime']['building']} {meeting['meetingTime']['room']}"
