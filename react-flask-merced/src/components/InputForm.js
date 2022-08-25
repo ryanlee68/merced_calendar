@@ -36,7 +36,7 @@ function InputForm() {
     // .catch(function (error) {
     //   console.log(error);
     // });
-    fetch('/getcsv', {
+    fetch('/api/getcsv', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

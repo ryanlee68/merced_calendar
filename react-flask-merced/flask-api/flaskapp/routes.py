@@ -19,7 +19,7 @@ from calendar import (
 # def index():
 #     return app.send_static_file('index.html')
 
-@app.route("/test", methods=['POST', 'GET'])
+@app.route("/api/test", methods=['POST', 'GET'])
 def test():
     if request.method == 'GET':
         Subject.query.delete()
@@ -32,7 +32,7 @@ def test():
 
 
 
-@app.route("/getcsv", methods=['POST'])
+@app.route("/api/getcsv", methods=['POST'])
 def getcsv():
     if request.method == 'POST':
         print(request.data)
