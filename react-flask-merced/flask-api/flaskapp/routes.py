@@ -28,6 +28,9 @@ def test():
         db.session.add_all(subject_obj)
         db.session.commit()
 
+        # resp = jsonify(success=True)
+        return 'success'
+
         # parse_json()
 
 
@@ -35,9 +38,9 @@ def test():
 @app.route("/api/getcsv", methods=['POST'])
 def getcsv():
     if request.method == 'POST':
-        print(request.data)
+        # print(request.data)
         crns = set(request.json['crns'])
-        print(crns)
+        # print(crns)
         # crns = ['31406', '31407', '30033', '30036', '33957', '30139', '30141', '30248', '30588']
         df = create_df(crns)
         df_csv = create_df(crns).to_csv(index=False)
