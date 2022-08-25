@@ -6,7 +6,7 @@ import requests
 import json
 
 
-def get_data(cookies: list[dict]):
+def get_data(cookies: list[dict]) -> list[dict]:
     params = {
         # 'txt_courseReferenceNumber': '33918',
         'txt_term': '202230',
@@ -44,7 +44,7 @@ def get_data(cookies: list[dict]):
 
 
 
-def get_cookies():
+def get_cookies() -> list[dict]:
     driver = webdriver.Chrome()
     driver.get('https://reg-prod.ec.ucmerced.edu/StudentRegistrationSsb/ssb/registration/registration')
     register_for_class_link = driver.find_element('id', 'classSearch')
