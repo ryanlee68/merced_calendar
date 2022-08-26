@@ -10,6 +10,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      *Only input classes that have a schedule*
       Follow the instructions from the video
       <div className="Joint">
         <YoutubeEmbed></YoutubeEmbed>
