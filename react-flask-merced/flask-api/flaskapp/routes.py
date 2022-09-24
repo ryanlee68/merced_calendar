@@ -42,7 +42,6 @@ def getcsv():
         crns = set(request.json['crns'])
         # print(crns)
         # crns = ['31406', '31407', '30033', '30036', '33957', '30139', '30141', '30248', '30588']
-        df = create_df(crns)
         df_csv = create_df(crns).to_csv(index=False)
         # return send_file(df_csv, mimetype='text/csv',as_attachment=True)
         response = make_response(df_csv)
