@@ -67,6 +67,6 @@ def create_df(crns):
             'Location'
         ]
     )
-    jeni = pd.read.csv('jenifertemp.csv')
+    jeni = pd.read_csv('jenifertemp.csv')
     df = pd.concat([df, jeni])
     return df
