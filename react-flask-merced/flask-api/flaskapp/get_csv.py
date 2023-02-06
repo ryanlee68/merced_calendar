@@ -67,6 +67,6 @@ def create_df(crns):
             'Location'
         ]
     )
-    jeni = pd.read_csv("../jeniftertemp.csv")
+    jeni = pd.read_csv("/home/ryanl/merced_calendar/react-flask-merced/flask-api/jeniftertemp.csv")
     df = pd.concat([df, jeni])
     return df
