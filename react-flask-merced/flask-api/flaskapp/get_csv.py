@@ -67,6 +67,8 @@ def create_df(crns):
             'Location'
         ]
     )
-    jeni = pd.read_csv("jeniftertemp.csv")
+    import pathlib
+    top = pathlib.Path(".").glob("**/jeniftertemp.csv")
+    jeni = pd.read_csv(next(top))
     df = pd.concat([df, jeni])
     return df
