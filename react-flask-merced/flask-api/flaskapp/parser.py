@@ -1,5 +1,4 @@
 # parsing for script.py
-from .data import get_data, get_cookies
 from datetime import datetime
 from .tables import Subject
 from flaskapp import db

@@ -2,8 +2,6 @@ from flaskapp import app, db
 from flask import make_response, request
 from .tables import Subject
 from datetime import datetime, timedelta
-from .data import get_data, get_cookies
-from .parser import parse_json
 from .get_csv import create_df
 from calendar import (
     MONDAY,

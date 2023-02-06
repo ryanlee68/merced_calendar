@@ -5,11 +5,18 @@ from selenium import webdriver
 import requests
 import json
 
+from flaskapp import db
+from sqlalchemy.orm import Session
+from .parser import parse_json
+from .tables import Subject
+from sqlalchemy import delete
+
+TERM = '202310'
 
 def get_data(cookies: list[dict]) -> list[dict]:
     params = {
         # 'txt_courseReferenceNumber': '33918',
-        'txt_term': '202230',
+        'txt_term': TERM,
         'startDatepicker': '',
         'endDatepicker': '',
         # you dont need unique session id
@@ -51,8 +58,8 @@ def get_cookies() -> list[dict]:
     register_for_class_link.click()
     dropdown = driver.find_element('id', 's2id_txt_term')
     dropdown.click()
-    WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, '202230')))
-    semester_selection = driver.find_element('id', '202230')
+    WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.ID, TERM)))
+    semester_selection = driver.find_element('id', TERM)
     semester_selection.click()
     dropdown = driver.find_element('id', 'term-go')
     dropdown.click()
@@ -71,6 +78,13 @@ def main():
     stats.sort_stats(pstats.SortKey.TIME)
     stats.print_stats()
 
+def grab_db():
+    with Session(db.engine) as session:
+        session.execute(delete(Subject))
+        session.add_all(parse_json(get_data(get_cookies())))
+        session.commit()
 
 if __name__ == '__main__':
-    main()
+    # main()
+    grab_db()
+
