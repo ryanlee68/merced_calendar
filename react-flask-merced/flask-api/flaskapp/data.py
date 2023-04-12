@@ -11,7 +11,7 @@ from .parser import parse_json
 from .tables import Subject
 from sqlalchemy import delete
 
-TERM = '202310'
+TERM = '202330'
 
 def get_data(cookies: list[dict]) -> list[dict]:
     params = {
