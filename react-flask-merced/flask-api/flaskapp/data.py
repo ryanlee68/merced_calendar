@@ -5,7 +5,7 @@ from selenium import webdriver
 import requests
 import json
 
-from flaskapp import db
+from . import db
 from sqlalchemy.orm import Session
 from .parser import parse_json
 from .tables import Subject
@@ -52,7 +52,8 @@ def get_data(cookies: list[dict]) -> list[dict]:
 
 
 def get_cookies() -> list[dict]:
-    driver = webdriver.Chrome()
+    # driver = webdriver.Chrome()
+    driver = webdriver.Chrome(executable_path='/Users/ryanlee/Desktop/merced_calendar/react-flask-merced/flask-api/chromedriver.exe')
     driver.get('https://reg-prod.ec.ucmerced.edu/StudentRegistrationSsb/ssb/registration/registration')
     register_for_class_link = driver.find_element('id', 'classSearch')
     register_for_class_link.click()
