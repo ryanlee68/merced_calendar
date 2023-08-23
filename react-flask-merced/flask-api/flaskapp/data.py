@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 import requests
 import json
+import os
 
 from . import db
 from sqlalchemy.orm import Session
@@ -52,8 +53,8 @@ def get_data(cookies: list[dict]) -> list[dict]:
 
 
 def get_cookies() -> list[dict]:
-    driver = webdriver.Chrome()
-    # driver = webdriver.Chrome(executable_path='/Users/ryanlee/Desktop/merced_calendar/react-flask-merced/flask-api/chromedriver.exe')
+    # driver = webdriver.Chrome()
+    driver = webdriver.Chrome("/Users/ryanlee/Downloads/chromedriver_mac64/chromedriver")
     driver.get('https://reg-prod.ec.ucmerced.edu/StudentRegistrationSsb/ssb/registration/registration')
     register_for_class_link = driver.find_element('id', 'classSearch')
     register_for_class_link.click()
@@ -85,6 +86,7 @@ def grab_db():
         session.add_all(parse_json(get_data(get_cookies())))
         session.commit()
 
+# to run this file, run python3 -m flaskapp.data
 if __name__ == '__main__':
     # main()
     grab_db()
