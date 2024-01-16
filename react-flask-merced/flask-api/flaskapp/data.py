@@ -12,7 +12,7 @@ from .parser import parse_json
 from .tables import Subject
 from sqlalchemy import delete
 
-TERM = '202330'
+TERM = '202410'
 
 def get_data(cookies: list[dict]) -> list[dict]:
     params = {
@@ -53,8 +53,8 @@ def get_data(cookies: list[dict]) -> list[dict]:
 
 
 def get_cookies() -> list[dict]:
-    # driver = webdriver.Chrome()
-    driver = webdriver.Chrome("/Users/ryanlee/Downloads/chromedriver_mac64/chromedriver")
+    driver = webdriver.Chrome()
+    # driver = webdriver.Chrome("/Users/ryanlee/Downloads/chromedriver_mac64/chromedriver")
     driver.get('https://reg-prod.ec.ucmerced.edu/StudentRegistrationSsb/ssb/registration/registration')
     register_for_class_link = driver.find_element('id', 'classSearch')
     register_for_class_link.click()
